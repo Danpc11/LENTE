@@ -21,7 +21,9 @@ curves = {}
 for f in sorted(glob.glob(str(ROOT / "model/results/res_p*.json"))):
     r = json.load(open(f))
     if r.get("x_well", 1000) != 1000: continue
-    ex = np.clip(np.array(r["c_well"])[ip:] - cr, 0, None); idx = np.linspace(0, len(tp) - 1, 40).astype(int)
+    ex = np.clip(np.array(r["c_well"])[ip:] - cr, 0, None)
+    ex = np.convolve(ex, np.ones(7) / 7, mode="same"); ex[:3] = ex[3]; ex[-3:] = ex[-4]   # suaviza la oscilación numérica del paso de tiempo
+    idx = np.linspace(0, len(tp) - 1, 40).astype(int)
     curves[str(int(r["Q"]))] = [[round(float(tp[i]), 2), round(float(ex[i]), 2)] for i in idx]
 
 geo = {Path(f).stem: json.load(open(f)) for f in glob.glob(str(ROOT / "data/processed/geo/*.geojson"))}

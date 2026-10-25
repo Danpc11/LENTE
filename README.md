@@ -9,40 +9,54 @@
 ![Fase](https://img.shields.io/badge/fase-prueba%20de%20concepto-lightgrey)
 [![Licencia](https://img.shields.io/badge/licencia-uso%20restringido-C8102E)](LICENSE)
 
-**Alerta temprana de intrusión salina para los pozos que abastecen al turismo de la península de Yucatán.**
+**Inteligencia hidrogeológica para proteger la infraestructura hídrica del turismo costero.**
 
-**Web app:** https://danpc11.github.io/LENTE/
+LENTE transforma datos públicos, modelado físico y monitoreo en campo en una respuesta concreta para cada operador: qué pozos están expuestos a la intrusión salina, cómo evoluciona esa exposición con el bombeo y qué decisiones la reducen. No vendemos mapas ni sensores; vendemos continuidad operativa del abastecimiento de agua.
 
-[![App LENTE](figures/shot_qroo.png)](https://danpc11.github.io/LENTE/)
+**Explora la plataforma:** https://danpc11.github.io/LENTE/
 
-*LENTE Atlas: clasificación de vulnerabilidad de los pozos de servicios entre Cancún y Tulum.*
+[![LENTE Atlas](figures/shot_qroo.png)](https://danpc11.github.io/LENTE/)
 
-## Por qué importa
+34,413 pozos georreferenciados en la península · 1,802 pozos de servicios analizados · 179 captaciones por encima del umbral crítico calculado · 142 titulares identificados como prospectos en la costa de Quintana Roo.
 
-La plataforma kárstica de la península de Yucatán casi no tiene corrientes superficiales permanentes. Toda el agua que se bebe, se riega o llena una alberca sale del mismo acuífero de roca caliza, y bajo la costa del Caribe esa agua dulce es una lente de pocas decenas de metros que flota sobre el mar. Cada pozo que bombea levanta la frontera entre ambas, la haloclina, hacia su rejilla; cuando la alcanza, el agua sale salobre y el hotel paga ósmosis inversa, pipas o un pozo nuevo. Nadie le avisa antes.
+## La oportunidad
 
-El sector servicios de Quintana Roo (hoteles, parques, aeropuerto, plazas) tiene concesionada más agua subterránea que el abasto público urbano de todo el estado, y la bombea desde pozos someros en la franja donde la lente es más delgada. El mismo hotel inyecta su agua residual tratada por debajo de la lente. Frente a esa presión, la vigilancia pública no mide salinidad de forma continua en ningún punto de la costa, y los estudios hidrogeológicos privados responden una vez, para un pozo, a un costo que solo pagan los grandes.
+La Riviera Maya sostiene una de las industrias turísticas más grandes de América Latina sobre un recurso que conocemos de forma fragmentada: una lente de agua dulce de pocas decenas de metros que flota sobre el mar. El sector servicios de Quintana Roo tiene concesionada más agua subterránea que el abasto público urbano de todo el estado y la extrae desde pozos someros en la franja donde esa lente es más delgada. Cuando la haloclina alcanza la rejilla, el agua sale salobre y el operador paga ósmosis inversa, pipas o un pozo nuevo, sin aviso previo. Hoy ningún punto de la costa mide salinidad de forma continua y los estudios hidrogeológicos privados responden una vez, para un pozo, a un costo que solo pagan los grandes. El riesgo es climático y crece: nivel del mar, marejadas de huracán y sequías adelgazan la lente; el bombeo decide cuándo se rompe.
 
-LENTE convierte ese problema en un sistema de alerta temprana por pozo, en tres componentes: **Atlas** (existe hoy) ubica y clasifica por vulnerabilidad cada pozo de servicios de la península con el padrón oficial de concesiones (REPDA) y un criterio físico de ascenso de la haloclina; **Monitor** (siguiente paso) instala sensores de conductividad, nivel y caudal en pozos piloto para calibrar el modelo y verificar la clasificación; **Forecast** (etapa posterior) usa el modelo físico del acuífero (MODFLOW 6, flujo de densidad variable) para dar pronóstico por pozo con incertidumbre. La clasificación del Atlas es física, no una medición de salinidad.
+## La tecnología
 
-El riesgo es climático: el nivel del mar sube, las marejadas de huracán empujan agua salada al acuífero y las sequías reducen la recarga. Cada uno adelgaza la lente; el bombeo decide cuándo se rompe. Proteger la lente es proteger la infraestructura de la principal industria de la región y el agua de las comunidades que viven de ella.
+| Componente | Qué hace | Estado |
+| --- | --- | --- |
+| **LENTE Atlas** | Ubica y clasifica por vulnerabilidad cada pozo de servicios de la península con el padrón oficial (REPDA) y un criterio físico de ascenso de la haloclina; simulador de reducción de bombeo por pozo | Disponible |
+| **LENTE Monitor** | Sensores de conductividad, nivel y caudal en pozos piloto, con lecturas cada hora, para calibrar el modelo y verificar la clasificación | Próxima etapa (pilotos) |
+| **LENTE Forecast** | Modelo físico del acuífero (MODFLOW 6, flujo de densidad variable) ampliado a emulador y análisis de sensibilidad, para pronóstico por pozo con incertidumbre | En desarrollo |
 
-## Qué hay en el repositorio
+La clasificación del Atlas es física, no una medición de salinidad; la ventaja que se construye con cada piloto es el historial de calibración con datos propios.
+
+## Mercado
+
+Inicial: hoteles, parques turísticos, aeropuerto, desarrolladores inmobiliarios y operadores de infraestructura de la Riviera Maya. Expansión: destinos turísticos con acuíferos costeros kársticos en el Caribe y el Mediterráneo.
+
+Desarrollado en México para una industria turística resiliente.
+
+---
+
+## Documentación técnica
+
+Metodología: [docs/metodologia.md](docs/metodologia.md). Propuesta al Premio a la Innovación Mexicana 2026: [docs/LENTE_propuesta.pdf](docs/LENTE_propuesta.pdf).
 
 ```
 data/raw/        exportaciones REPDA 2026, pozos REPDA 2011 por estado, costa 2024 (GeoJSON)
 data/processed/  títulos limpios, cruce 2011-2026, índice de riesgo por pozo, piezómetros, capas geo
 scripts/         01 descarga · 02 limpieza · 03 cruce · 04 índice de riesgo · 05 app · 06 figura del modelo
 model/           lente_mf6.py (MODFLOW 6) y results/*.json
-app/             template.html y lente_app.html (autocontenida)
+app/             template.html, d3 incrustado y lente_app.html (autocontenida, funciona sin red)
 docs/            index.html (web app publicada), propuesta en PDF y HTML, metodología
 figures/         figuras y capturas de la app
 brand/           logotipo (SVG y PNG) y paleta
 ```
 
-Cómo se calcula cada pieza: [docs/metodologia.md](docs/metodologia.md). Propuesta completa: [docs/LENTE_propuesta.pdf](docs/LENTE_propuesta.pdf).
-
-## Reproducir
+### Reproducir
 
 ```bash
 pip install -r requirements.txt
@@ -55,7 +69,7 @@ make figures app
 
 Las exportaciones del REPDA 2026 se hacen a mano en la [consulta en línea de CONAGUA](https://app.conagua.gob.mx/ConsultaRepda.aspx) (búsqueda avanzada por tipo de aprovechamiento, estado y uso) y se dejan en `data/raw/`.
 
-## Fuentes
+### Fuentes
 
 - CONAGUA: REPDA (consulta en línea 2026; servicio REST `sigagis.conagua.gob.mx`, aprovechamientos subterráneos 2011), red piezométrica 2025, disponibilidad del acuífero Península de Yucatán (DOF 2023), diagnóstico de calidad del agua 2012-2023.
 - CONABIO: línea de costa de México 2024, manglares 2025 y cambios 2020-2025, cuerpos de agua 1:50 000.
@@ -68,4 +82,4 @@ Daniel Pérez Calixto (INMEGEN) y Sandra Michelle Torres Pantoja. Postulación a
 
 ## Licencia
 
-Uso restringido: consulta y evaluación permitidas; cualquier otro uso requiere licencia escrita de los titulares. Ver [LICENSE](LICENSE). Los datos de CONAGUA y CONABIO conservan sus términos.
+Uso restringido: se permite consultar el código y los documentos y ejecutar los scripts para verificar resultados; cualquier otro uso (comercial, redistribución, obras derivadas, despliegue) requiere licencia escrita de los titulares. Ver [LICENSE](LICENSE). Los datos de CONAGUA y CONABIO conservan sus términos.

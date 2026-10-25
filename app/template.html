@@ -60,6 +60,12 @@ dt{color:var(--muted)} dd{margin:0}
 .tag{display:inline-block;padding:3px 9px;border-radius:999px;color:#fff;font-size:12px;font-weight:500}
 .note{border-left:3px solid var(--line);padding:6px 10px;color:var(--ink-2);font-size:12.5px;margin:12px 0}
 #chart svg{width:100%;height:220px;display:block;overflow:visible}
+.sim{margin-top:14px;border-top:1px solid var(--line);padding-top:12px}
+.sim label{font-size:13px;font-weight:500;display:block;margin-bottom:6px}
+.simrow{display:flex;align-items:center;gap:12px}
+.simrow input{flex:1;accent-color:var(--accent)}
+.simrow output{min-width:42px;font-weight:600;font-variant-numeric:tabular-nums}
+.simout{font-size:13px;color:var(--ink-2);margin-top:8px;min-height:1.4em}
 .summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0 6px}
 .summary div{border-top:3px solid var(--line);padding-top:6px}
 .summary strong{display:block;font-size:22px;font-weight:300}
@@ -192,11 +198,21 @@ function select(w){
   <dl><dt>Caudal</dt><dd>${fmt(w.Q)} m³ por día</dd><dt>Distancia a la costa</dt><dd>${f1(w.d)} km</dd><dt>Espesor de lente estimado</dt><dd>${f1(w.L)} m</dd><dt>Profundidad registrada</dt><dd>${f1(w.z)} m</dd></dl>
   <p class="note">${verdict}</p>
   <h2 style="font-size:14px">Escenario simulado para su caudal</h2><p class="sub">Exceso de salinidad sobre la condición sin bombeo, interpolado entre las corridas del modelo 2D. No es un pronóstico calibrado.</p>
-  <div id="chart"></div>`;
+  <div id="chart"></div>
+  <div class="sim"><label for="red">Simular reducción de bombeo</label><div class="simrow"><input id="red" type="range" min="0" max="50" step="5" value="0" aria-label="Reducción de bombeo, por ciento"><output id="redv">0%</output></div><div id="simout" class="simout"></div></div>`;
   document.getElementById('back').onclick=()=>{state.sel=null;draw()};
   chart(curve, below);
+  const red=document.getElementById('red'), redv=document.getElementById('redv'), simout=document.getElementById('simout');
+  const base=w.Q, Rbase=w.R;
+  function sim(){const r=+red.value; const Q=base*(1-r/100); const R=Rbase*(1-r/100); redv.textContent=r+'%';
+    const c2=curveFor(Q); const cr=c2.find(p=>p[1]>=1);
+    const cat=R>1?'alta':R>0.3?'media':'baja';
+    simout.innerHTML=r===0?'':`Con ${fmt(Q)} m³/d: Q / Q crítico = ${R>=100?'>100':f1(R)} (vulnerabilidad <b>${cat}</b>)${below?'':cr?`; cruza 1 g/L en ${fmt(cr[0]*12)} meses`:'; no cruza 1 g/L en 5 años'}.`;
+    document.getElementById('chart').innerHTML=''; chart(c2, below, r>0?curve:null);
+  }
+  red.addEventListener('input',sim);
 }
-function chart(curve, below){
+function chart(curve, below, ref){
   const w=document.getElementById('chart').clientWidth||360,h=230,m={l:36,r:8,t:12,b:36};
   const s=d3.select('#chart').append('svg').attr('viewBox',`0 0 ${w} ${h}`);
   const x=d3.scaleLinear().domain([0,5]).range([m.l,w-m.r]), y=d3.scaleLinear().domain([0,Math.max(5,d3.max(curve,p=>p[1])*1.1)]).range([h-m.b,m.t]);
@@ -206,7 +222,9 @@ function chart(curve, below){
   s.append('text').attr('x',m.l+4).attr('y',m.t+10).attr('font-size',11).attr('fill','var(--muted)').text('g/L');
   s.append('line').attr('x1',x(0)).attr('x2',x(5)).attr('y1',y(1)).attr('y2',y(1)).attr('stroke','var(--ink-2)').attr('stroke-dasharray','4 3');
   s.append('text').attr('x',x(5)).attr('y',y(1)-4).attr('text-anchor','end').attr('font-size',11).attr('fill','var(--ink-2)').text('umbral salobre, 1 g/L');
+  if(ref) s.append('path').attr('d',d3.line().x(p=>x(p[0])).y(p=>y(p[1]))(ref)).attr('fill','none').attr('stroke','var(--muted)').attr('stroke-width',1.4).attr('stroke-dasharray','3 3');
   s.append('path').attr('d',d3.line().x(p=>x(p[0])).y(p=>y(p[1]))(curve)).attr('fill','none').attr('stroke',below?'var(--alto)':'var(--accent)').attr('stroke-width',2.2);
+  if(ref) s.append('text').attr('x',x(5)).attr('y',m.t+10).attr('text-anchor','end').attr('font-size',11).attr('fill','var(--muted)').text('punteada: bombeo actual');
   if(below) s.append('text').attr('x',m.l+8).attr('y',m.t+24).attr('font-size',11).attr('fill','var(--alto)').text('Ya salobre en la condición inicial');
 }
 document.getElementById('q').addEventListener('input',e=>{state.q=e.target.value.trim().toLowerCase();state.sel=null;draw()});

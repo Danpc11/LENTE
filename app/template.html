@@ -3,31 +3,31 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>LENTE: riesgo de intrusión salina en pozos de servicios de la península de Yucatán</title>
+<title>LENTE Atlas: vulnerabilidad a la intrusión salina en pozos de servicios de la península de Yucatán</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
 <style>
 :root{
-  --land:#F2F0E9; --land-2:#E6E3D8; --ink:#13303B; --ink-2:#3F5A66; --muted:#7D919B;
-  --line:#CDD6D4; --panel:#FBFAF7;
-  --sea:#A9DCE3; --shelf:#8FCBD6; --sea-line:#2E8698; --mangrove:#79B48C;
-  --alto:#D7263D; --medio:#F2A541; --bajo:#8A9BA3; --otros:#D5D9D4;
-  --accent:#0E7C86;
+  --land:#F5F3EC; --land-2:#EAE6DB; --ink:#12333E; --ink-2:#3C5964; --muted:#7A8F98;
+  --line:#D4DAD6; --panel:#FCFBF8;
+  --sea:#BFE4E5; --shelf:#A3D7D9; --sea-line:#168E91; --mangrove:#7FB892;
+  --alto:#D96C59; --medio:#E3A52A; --bajo:#8A9BA3; --otros:#D5D9D4;
+  --accent:#168E91;
   box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
 }
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
   color-scheme:dark; --land:#141E24; --land-2:#1B2831; --ink:#E9EFF1; --ink-2:#B5C3CA; --muted:#7F919A;
-  --line:#2A3B44; --panel:#101A20; --sea:#0D3C48; --shelf:#0F4A58; --sea-line:#4FB3C4; --mangrove:#2F6B4B;
-  --alto:#FF4D5E; --medio:#F5B860; --bajo:#6C7E88; --otros:#2B3A42; --accent:#5FD0DC; } }
+  --line:#2A3B44; --panel:#101A20; --sea:#0D3C48; --shelf:#0F4A58; --sea-line:#7ACBCC; --mangrove:#2F6B4B;
+  --alto:#F08A77; --medio:#F5B860; --bajo:#6C7E88; --otros:#2B3A42; --accent:#7ACBCC; } }
 :root[data-theme="dark"]{ color-scheme:dark; --land:#141E24; --land-2:#1B2831; --ink:#E9EFF1; --ink-2:#B5C3CA; --muted:#7F919A;
-  --line:#2A3B44; --panel:#101A20; --sea:#0D3C48; --shelf:#0F4A58; --sea-line:#4FB3C4; --mangrove:#2F6B4B;
-  --alto:#FF4D5E; --medio:#F5B860; --bajo:#6C7E88; --otros:#2B3A42; --accent:#5FD0DC; }
+  --line:#2A3B44; --panel:#101A20; --sea:#0D3C48; --shelf:#0F4A58; --sea-line:#7ACBCC; --mangrove:#2F6B4B;
+  --alto:#F08A77; --medio:#F5B860; --bajo:#6C7E88; --otros:#2B3A42; --accent:#7ACBCC; }
 html{scroll-padding-top:env(safe-area-inset-top,0px)} html,body{height:100%;margin:0}
 body{background:var(--land);color:var(--ink);font-family:"IBM Plex Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;font-size:14px;line-height:1.45}
 *{box-sizing:inherit}
 header{padding:18px 22px 10px;border-bottom:1px solid var(--line)}
-header h1{margin:0;font-weight:300;font-size:26px;letter-spacing:-.01em}
+header h1{margin:0;font-weight:300;font-size:22px;letter-spacing:-.01em}
 header h1 b{font-weight:600}
 header p{margin:6px 0 0;color:var(--ink-2);max-width:72ch}
 .wrap{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(300px,420px);gap:0;height:calc(100% - 92px)}
@@ -67,8 +67,24 @@ button.link{background:none;border:0;color:var(--accent);padding:0;font:inherit;
 </head>
 <body>
 <header>
-  <h1><b>LENTE</b> Riesgo de intrusión salina en pozos de servicios, península de Yucatán</h1>
-  <p>__NWELLS__ pozos concesionados a hoteles, parques y otros servicios, ubicados con el REPDA y evaluados con un modelo de ascenso de la haloclina calibrado con MODFLOW 6. Toque un pozo para ver su proyección.</p>
+  <div style="display:flex;align-items:center;gap:12px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="38" height="38">
+  <defs><clipPath id="c"><circle cx="60" cy="60" r="54"/></clipPath></defs>
+  <circle cx="60" cy="60" r="54" fill="#12333E"/>
+  <g clip-path="url(#c)">
+    <!-- lente de agua dulce -->
+    <path d="M0 48 Q30 36 60 46 Q90 56 120 44 L120 0 L0 0 Z" fill="#7ACBCC"/>
+    <path d="M0 48 Q30 36 60 46 Q90 56 120 44 L120 70 Q90 84 60 72 Q30 60 0 74 Z" fill="#168E91"/>
+    <!-- haloclina -->
+    <path d="M0 74 Q30 60 60 72 Q90 84 120 70" fill="none" stroke="#F5F3EC" stroke-width="2.2" stroke-dasharray="5 4"/>
+    <!-- pozo -->
+    <rect x="57" y="30" width="6" height="40" rx="1.5" fill="#F5F3EC"/>
+    <rect x="52" y="24" width="16" height="8" rx="2" fill="#F5F3EC"/>
+    <!-- señal -->
+    <path d="M47 21 a13 13 0 0 1 26 0" fill="none" stroke="#D96C59" stroke-width="3" stroke-linecap="round"/>
+  </g>
+</svg>
+<h1><b>LENTE</b> Atlas de vulnerabilidad a la intrusión salina, pozos de servicios de la península de Yucatán</h1></div>
+  <p>__NWELLS__ pozos concesionados a hoteles, parques y otros servicios, ubicados con el REPDA y clasificados por el cociente entre su caudal y el caudal crítico de ascenso de la haloclina. Es una clasificación física, no una medición: toque un pozo para ver su ficha y el escenario simulado que le corresponde.</p>
 </header>
 <div class="wrap">
   <div id="map">
@@ -81,7 +97,7 @@ button.link{background:none;border:0;color:var(--accent);padding:0;font:inherit;
       <button class="chip" data-k="bajo" aria-pressed="true"><i style="background:var(--bajo)"></i>Bajo</button>
       <button id="reset" type="button">Ver todo</button>
     </div>
-    <div class="legend"><b>Riesgo</b> = caudal del pozo entre el caudal crítico de ascenso estable de la haloclina para su posición y profundidad. Alto: mayor que 1. Medio: entre 0.3 y 1. Bajo: menor que 0.3. El tamaño del punto sigue al caudal. Verde: manglar 2025. Azul: mar y lagunas perennes. Costa 2024, manglar y cuerpos de agua de CONABIO; batimetría de Natural Earth. Arrastre para mover, rueda o pellizco para acercar.</div>
+    <div class="legend"><b>Vulnerabilidad</b> = caudal del pozo entre el caudal crítico de ascenso estable de la haloclina para su posición y profundidad registrada. Alta: mayor que 1. Media: entre 0.3 y 1. Baja: menor que 0.3. El tamaño del punto sigue al caudal. Verde: manglar 2025. Azul: mar y lagunas perennes. Costa 2024, manglar y cuerpos de agua de CONABIO; batimetría de Natural Earth. Arrastre para mover, rueda o pellizco para acercar.</div>
   </div>
   <aside id="panel"></aside>
 </div>
@@ -138,9 +154,9 @@ function summary(ws){
   const byT=d3.rollups(ws.filter(w=>w.k==='alto'),v=>({Q:d3.sum(v,w=>w.Q),n:v.length,w:v[0]}),w=>w.t).map(([t,o])=>({t,...o})).sort((a,b)=>b.Q-a.Q).slice(0,10);
   const top=byT;
   document.getElementById('panel').innerHTML=`<h2>${state.edo||'Península de Yucatán'}</h2>${panelBase()}
-  <div class="summary"><div><strong>${fmt(n('alto'))}</strong><span>pozos en riesgo alto</span></div><div><strong>${fmt(n('medio'))}</strong><span>riesgo medio</span></div><div><strong>${fmt(n('bajo'))}</strong><span>riesgo bajo</span></div></div>
+  <div class="summary"><div><strong>${fmt(n('alto'))}</strong><span>vulnerabilidad alta</span></div><div><strong>${fmt(n('medio'))}</strong><span>media</span></div><div><strong>${fmt(n('bajo'))}</strong><span>baja</span></div></div>
   <p class="note">Extracción concesionada en los pozos mostrados: ${fmt(Qt)} m³ por día, equivalente a ${f1(Qt*365/1e6)} hm³ al año.</p>
-  <h2 style="font-size:14px;margin-top:16px">Titulares con pozos en riesgo alto, por caudal</h2>
+  <h2 style="font-size:14px;margin-top:16px">Titulares con pozos por encima del umbral, por caudal</h2>
   <ul class="list">${top.map(o=>`<li tabindex="0" data-id="${o.w.id}"><span style="color:var(--ink)">${o.t}${o.n>1?` <span style="color:var(--muted)">(${o.n} pozos)</span>`:''}</span><span>${fmt(o.Q)} m³/d</span></li>`).join('')}</ul>`;
   document.querySelectorAll('.list li').forEach(li=>{const f=()=>select(D.wells.find(w=>w.id==li.dataset.id)); li.onclick=f; li.onkeydown=e=>{if(e.key==='Enter')f()}});
 }
@@ -148,16 +164,16 @@ function select(w){
   state.sel=w; draw();
   const curve=curveFor(w.Q); const cross=curve.find(p=>p[1]>=1); const below=w.z>=w.L;
   const verdict= below?`La rejilla registrada (${f1(w.z)} m) está por debajo del espesor estimado de la lente (${f1(w.L)} m): el pozo bombea desde la zona de mezcla.`:
-    w.k==='alto'?`El caudal supera el crítico para su lente. En el modelo, un pozo así cruza 1 g/L (salobre) en ${cross?fmt(cross[0]*12):'menos de 1'} meses.`:
+    w.k==='alto'?`El caudal concesionado supera el crítico calculado para su lente. En el escenario simulado más cercano, un pozo así cruza 1 g/L (salobre) en ${cross?fmt(cross[0]*12):'menos de 1'} meses; sin medición en campo es una estimación.`:
     w.k==='medio'?`El caudal está entre 30% y 100% del crítico. Cualquier aumento de bombeo o sequía lo pasa a riesgo alto.`:
     `El caudal está por debajo del 30% del crítico; la haloclina se mantiene estable con el bombeo actual.`;
   document.getElementById('panel').innerHTML=`<button class="link" id="back">Volver al resumen</button>
   <h2 style="margin-top:10px">${w.t}</h2><p class="sub">${w.e}${w.y26?', volumen vigente 2026':', volumen REPDA 2011'}</p>
-  <span class="tag" style="background:${C[w.k]}">riesgo ${w.k}</span>
+  <span class="tag" style="background:${C[w.k]}">vulnerabilidad ${w.k==="alto"?"alta":w.k==="medio"?"media":"baja"}</span>
   <div class="big">${w.R>=100?'>100':f1(w.R)} <small>Q / Q crítico</small></div>
   <dl><dt>Caudal</dt><dd>${fmt(w.Q)} m³ por día</dd><dt>Distancia a la costa</dt><dd>${f1(w.d)} km</dd><dt>Espesor de lente estimado</dt><dd>${f1(w.L)} m</dd><dt>Profundidad registrada</dt><dd>${f1(w.z)} m</dd></dl>
   <p class="note">${verdict}</p>
-  <h2 style="font-size:14px">Salinidad proyectada en el pozo</h2><p class="sub">Exceso sobre la condición sin bombeo, interpolado por caudal entre las corridas del modelo 2D.</p>
+  <h2 style="font-size:14px">Escenario simulado para su caudal</h2><p class="sub">Exceso de salinidad sobre la condición sin bombeo, interpolado entre las corridas del modelo 2D. No es un pronóstico calibrado.</p>
   <div id="chart"></div>`;
   document.getElementById('back').onclick=()=>{state.sel=null;draw()};
   chart(curve, below);

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 120" width="420" height="120">
+  <defs><clipPath id="c"><circle cx="60" cy="60" r="54"/></clipPath></defs>
+  <circle cx="60" cy="60" r="54" fill="#12333E"/>
+  <g clip-path="url(#c)">
+    <path d="M0 48 Q30 36 60 46 Q90 56 120 44 L120 0 L0 0 Z" fill="#7ACBCC"/>
+    <path d="M0 48 Q30 36 60 46 Q90 56 120 44 L120 70 Q90 84 60 72 Q30 60 0 74 Z" fill="#168E91"/>
+    <path d="M0 74 Q30 60 60 72 Q90 84 120 70" fill="none" stroke="#F5F3EC" stroke-width="2.2" stroke-dasharray="5 4"/>
+    <rect x="57" y="30" width="6" height="40" rx="1.5" fill="#F5F3EC"/>
+    <rect x="52" y="24" width="16" height="8" rx="2" fill="#F5F3EC"/>
+    <path d="M47 21 a13 13 0 0 1 26 0" fill="none" stroke="#D96C59" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  <text x="138" y="70" font-family="Carlito, Calibri, 'Liberation Sans', Arial, sans-serif" font-weight="700" font-size="58" letter-spacing="2" fill="#12333E">LENTE</text>
+  <text x="140" y="98" font-family="Carlito, Calibri, 'Liberation Sans', Arial, sans-serif" font-size="17" fill="#168E91">Anticipamos el futuro del agua</text>
+</svg>

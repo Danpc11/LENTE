@@ -28,4 +28,6 @@ geo = {Path(f).stem: json.load(open(f)) for f in glob.glob(str(ROOT / "data/proc
 data = json.dumps(dict(wells=wells, curves=curves, geo=geo), ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
 html = (ROOT / "app/template.html").read_text().replace("__DATA__", data).replace("__NWELLS__", f"{len(wells):,}")
 (ROOT / "app/lente_app.html").write_text(html)
+(ROOT / "docs").mkdir(exist_ok=True)
+(ROOT / "docs/index.html").write_text(html)   # GitHub Pages (Settings > Pages > main /docs)
 print(f"{len(wells)} pozos, {len(curves)} curvas, capas {list(geo)} -> app/lente_app.html ({len(html)//1024} KB)")

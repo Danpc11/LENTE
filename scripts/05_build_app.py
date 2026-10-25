@@ -32,5 +32,8 @@ d3js = (ROOT / "app/d3.v7.9.0.min.js").read_text()
 html = (ROOT / "app/template.html").read_text().replace("__D3__", d3js).replace("__DATA__", data).replace("__NWELLS__", f"{len(wells):,}")
 (ROOT / "app/lente_app.html").write_text(html)
 (ROOT / "docs").mkdir(exist_ok=True)
-(ROOT / "docs/index.html").write_text(html)   # GitHub Pages (Settings > Pages > main /docs)
+(ROOT / "docs/index.html").write_text(html)   # GitHub Pages con carpeta /docs
+(ROOT / "index.html").write_text(html)        # GitHub Pages con carpeta raíz
+(ROOT / ".nojekyll").write_text("")            # evita que Pages procese el sitio con Jekyll
+(ROOT / "docs/.nojekyll").write_text("")
 print(f"{len(wells)} pozos, {len(curves)} curvas, capas {list(geo)} -> app/lente_app.html ({len(html)//1024} KB)")

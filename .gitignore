@@ -1,0 +1,9 @@
+# datos pesados que se regeneran con los scripts o se bajan de CONAGUA/CONABIO
+data/raw/*.pdf
+data/raw/*.zip
+data/raw/shp/
+model/mf6_*/
+bin/
+__pycache__/
+*.pyc
+.DS_Store

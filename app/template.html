@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LENTE: riesgo de intrusión salina en pozos de servicios de la península de Yucatán</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<style>
+:root{
+  --land:#F2F0E9; --land-2:#E6E3D8; --ink:#13303B; --ink-2:#3F5A66; --muted:#7D919B;
+  --line:#CDD6D4; --panel:#FBFAF7;
+  --sea:#A9DCE3; --shelf:#8FCBD6; --sea-line:#2E8698; --mangrove:#79B48C;
+  --alto:#D7263D; --medio:#F2A541; --bajo:#8A9BA3; --otros:#D5D9D4;
+  --accent:#0E7C86;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  color-scheme:dark; --land:#141E24; --land-2:#1B2831; --ink:#E9EFF1; --ink-2:#B5C3CA; --muted:#7F919A;
+  --line:#2A3B44; --panel:#101A20; --sea:#0D3C48; --shelf:#0F4A58; --sea-line:#4FB3C4; --mangrove:#2F6B4B;
+  --alto:#FF4D5E; --medio:#F5B860; --bajo:#6C7E88; --otros:#2B3A42; --accent:#5FD0DC; } }
+:root[data-theme="dark"]{ color-scheme:dark; --land:#141E24; --land-2:#1B2831; --ink:#E9EFF1; --ink-2:#B5C3CA; --muted:#7F919A;
+  --line:#2A3B44; --panel:#101A20; --sea:#0D3C48; --shelf:#0F4A58; --sea-line:#4FB3C4; --mangrove:#2F6B4B;
+  --alto:#FF4D5E; --medio:#F5B860; --bajo:#6C7E88; --otros:#2B3A42; --accent:#5FD0DC; }
+html{scroll-padding-top:env(safe-area-inset-top,0px)} html,body{height:100%;margin:0}
+body{background:var(--land);color:var(--ink);font-family:"IBM Plex Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;font-size:14px;line-height:1.45}
+*{box-sizing:inherit}
+header{padding:18px 22px 10px;border-bottom:1px solid var(--line)}
+header h1{margin:0;font-weight:300;font-size:26px;letter-spacing:-.01em}
+header h1 b{font-weight:600}
+header p{margin:6px 0 0;color:var(--ink-2);max-width:72ch}
+.wrap{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(300px,420px);gap:0;height:calc(100% - 92px)}
+#map{position:relative;background:var(--land);overflow:hidden}
+#map svg{width:100%;height:100%;display:block;touch-action:none}
+.controls{position:absolute;left:14px;top:12px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;max-width:calc(100% - 28px)}
+.controls input,.controls select,.controls button{font:inherit;font-size:13px;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:6px 9px}
+.controls input{min-width:220px}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border:1px solid var(--line);border-radius:999px;background:var(--panel);cursor:pointer;font-size:13px}
+.chip[aria-pressed="false"]{opacity:.45}
+.chip i{width:10px;height:10px;border-radius:50%;display:inline-block}
+.legend{position:absolute;left:14px;bottom:14px;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:9px 12px;font-size:12px;color:var(--ink-2);max-width:300px}
+.legend b{color:var(--ink);font-weight:500}
+aside{border-left:1px solid var(--line);background:var(--panel);overflow:auto;padding:18px 20px}
+aside h2{font-weight:500;font-size:17px;margin:0 0 4px;line-height:1.3}
+aside .sub{color:var(--muted);margin:0 0 14px}
+.big{font-weight:300;font-size:44px;line-height:1;margin:6px 0 2px}
+.big small{font-size:14px;color:var(--muted);font-weight:400}
+dl{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin:14px 0;font-size:13px}
+dt{color:var(--muted)} dd{margin:0}
+.tag{display:inline-block;padding:3px 9px;border-radius:999px;color:#fff;font-size:12px;font-weight:500}
+.note{border-left:3px solid var(--line);padding:6px 10px;color:var(--ink-2);font-size:12.5px;margin:12px 0}
+#chart svg{width:100%;height:220px;display:block;overflow:visible}
+.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0 6px}
+.summary div{border-top:3px solid var(--line);padding-top:6px}
+.summary strong{display:block;font-size:22px;font-weight:300}
+.summary span{font-size:12px;color:var(--muted)}
+.list{margin:0;padding:0;list-style:none}
+.list li{padding:7px 0;border-top:1px solid var(--line);cursor:pointer;display:flex;justify-content:space-between;gap:10px;font-size:13px}
+.list li span:first-child{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.list li:hover,.list li:focus{color:var(--accent)} .list li span{color:var(--muted);white-space:nowrap}
+button.link{background:none;border:0;color:var(--accent);padding:0;font:inherit;cursor:pointer;text-decoration:underline}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (max-width:860px){ .wrap{grid-template-columns:1fr;grid-template-rows:60vh auto;height:auto} aside{border-left:0;border-top:1px solid var(--line)} .controls input{min-width:160px} }
+@media (prefers-reduced-motion:reduce){ *{transition:none!important} }
+</style>
+</head>
+<body>
+<header>
+  <h1><b>LENTE</b> Riesgo de intrusión salina en pozos de servicios, península de Yucatán</h1>
+  <p>__NWELLS__ pozos concesionados a hoteles, parques y otros servicios, ubicados con el REPDA y evaluados con un modelo de ascenso de la haloclina calibrado con MODFLOW 6. Toque un pozo para ver su proyección.</p>
+</header>
+<div class="wrap">
+  <div id="map">
+    <svg id="svg" role="img" aria-label="Mapa de pozos de servicios por categoría de riesgo"></svg>
+    <div class="controls">
+      <input id="q" type="search" placeholder="Buscar titular (p. ej. Kukulcán, Dine, Xcaret)" aria-label="Buscar titular">
+      <select id="edo" aria-label="Estado"><option value="">Toda la península</option><option>Quintana Roo</option><option>Yucatán</option><option>Campeche</option></select>
+      <button class="chip" data-k="alto" aria-pressed="true"><i style="background:var(--alto)"></i>Alto</button>
+      <button class="chip" data-k="medio" aria-pressed="true"><i style="background:var(--medio)"></i>Medio</button>
+      <button class="chip" data-k="bajo" aria-pressed="true"><i style="background:var(--bajo)"></i>Bajo</button>
+      <button id="reset" type="button">Ver todo</button>
+    </div>
+    <div class="legend"><b>Riesgo</b> = caudal del pozo entre el caudal crítico de ascenso estable de la haloclina para su posición y profundidad. Alto: mayor que 1. Medio: entre 0.3 y 1. Bajo: menor que 0.3. El tamaño del punto sigue al caudal. Verde: manglar 2025. Azul: mar y lagunas perennes. Costa 2024, manglar y cuerpos de agua de CONABIO; batimetría de Natural Earth. Arrastre para mover, rueda o pellizco para acercar.</div>
+  </div>
+  <aside id="panel"></aside>
+</div>
+<script id="data" type="application/json">__DATA__</script>
+<script>
+const D=JSON.parse(document.getElementById('data').textContent);
+const C={alto:'var(--alto)',medio:'var(--medio)',bajo:'var(--bajo)'};
+const r=d3.scaleSqrt().domain([0,4000]).range([2.2,9]).clamp(true); let zk=1;
+const fmt=d3.format(',.0f'), f1=d3.format(',.1f');
+const svg=d3.select('#svg'), g=svg.append('g');
+const state={edo:'',k:new Set(['alto','medio','bajo']),q:'',sel:null};
+function size(){const r=document.getElementById('map').getBoundingClientRect();return [r.width,r.height]}
+let W,H,proj,path;
+function setup(){
+  [W,H]=size();
+  proj=d3.geoMercator().fitExtent([[40,40],[W-40,H-40]],{type:'MultiPoint',coordinates:D.wells.map(w=>[w.lon,w.lat])});
+  draw();
+}
+const G=D.geo;
+const cities=[['Cancún',-86.85,21.17],['Playa del Carmen',-87.07,20.63],['Tulum',-87.46,20.21],['Chetumal',-88.30,18.50],['Mérida',-89.62,20.97],['Progreso',-89.66,21.28],['Campeche',-90.53,19.84]];
+function visible(w){return (!state.edo||w.e===state.edo)&&state.k.has(w.k)&&(!state.q||w.t.toLowerCase().includes(state.q))}
+function draw(){
+  g.selectAll('*').remove();
+  path=d3.geoPath(proj);
+  g.append('g').selectAll('path').data(G.sea.features).join('path').attr('d',path).attr('fill','var(--sea)').attr('stroke','none');
+  g.append('g').selectAll('path').data(G.shelf.features).join('path').attr('d',path).attr('fill','var(--shelf)').attr('stroke','none');
+  g.append('g').selectAll('path').data(G.mangrove.features).join('path').attr('d',path).attr('fill','var(--mangrove)').attr('stroke','none').attr('fill-opacity',.85);
+  g.append('g').selectAll('path').data(G.water.features).join('path').attr('d',path).attr('fill','var(--sea)').attr('stroke','var(--sea-line)').attr('stroke-width',.3);
+  g.append('g').selectAll('path').data(G.rivers.features).join('path').attr('d',path).attr('fill','none').attr('stroke','var(--sea-line)').attr('stroke-width',.8);
+  g.append('g').selectAll('path.coast').data(G.coast.features).join('path').attr('class','coast').attr('d',path).attr('fill','none').attr('stroke','var(--sea-line)').attr('stroke-width',1);
+  g.selectAll('text.city').data(cities).join('text').attr('class','city').attr('x',d=>proj([d[1],d[2]])[0]+6).attr('y',d=>proj([d[1],d[2]])[1]).text(d=>d[0])
+    .attr('font-size',11).attr('fill','var(--ink-2)');
+  const ws=D.wells.filter(visible).sort((a,b)=>(a.k==='alto')-(b.k==='alto'));
+  g.selectAll('circle').data(ws,d=>d.id).join('circle')
+    .attr('cx',d=>proj([d.lon,d.lat])[0]).attr('cy',d=>proj([d.lon,d.lat])[1]).attr('r',d=>r(d.Q)/Math.pow(zk,0.75))
+    .attr('fill',d=>C[d.k]).attr('fill-opacity',d=>d.k==='bajo'?.6:.92).attr('stroke',d=>state.sel&&state.sel.id===d.id?'var(--ink)':'none').attr('stroke-width',2)
+    .style('cursor','pointer').attr('tabindex',0).attr('role','button').attr('aria-label',d=>`${d.t}, riesgo ${d.k}`)
+    .on('click',(e,d)=>select(d)).on('keydown',(e,d)=>{if(e.key==='Enter')select(d)});
+  summary(ws);
+}
+const zoom=d3.zoom().scaleExtent([1,40]).on('zoom',e=>{zk=e.transform.k; g.attr('transform',e.transform); g.selectAll('circle').attr('r',d=>r(d.Q)/Math.pow(zk,0.75)).attr('stroke-width',2/e.transform.k); g.selectAll('text.city').attr('font-size',11/e.transform.k); g.selectAll('path.coast').attr('stroke-width',1/e.transform.k)});
+svg.call(zoom);
+function curveFor(Q){
+  const keys=Object.keys(D.curves).map(Number).sort((a,b)=>a-b); const lq=Math.log(Math.max(Q,1));
+  let lo=keys[0],hi=keys[keys.length-1]; for(let i=0;i<keys.length-1;i++){if(lq>=Math.log(keys[i])&&lq<=Math.log(keys[i+1])){lo=keys[i];hi=keys[i+1]}}
+  const a=D.curves[lo],b=D.curves[hi]; const t=lo===hi?0:(lq-Math.log(lo))/(Math.log(hi)-Math.log(lo)); const tt=Math.min(Math.max(t,0),1);
+  let scale=1; if(Q<keys[0]) scale=Math.max(Q,1)/keys[0]; if(Q>keys[keys.length-1]) scale=Math.min(Q/keys[keys.length-1],2.5);
+  return a.map((p,i)=>[p[0],Math.min(35,(p[1]*(1-tt)+b[i][1]*tt)*scale)]);
+}
+function panelBase(){return `<p class="sub">Fuente: REPDA (CONAGUA) 2011 y 2026, red piezométrica 2025, modelo LENTE 2D. Estimaciones por pozo; la calibración de campo con sensor de conductividad las convierte en pronóstico.</p>`}
+function summary(ws){
+  if(state.sel) return;
+  const n=k=>ws.filter(w=>w.k===k).length; const Qt=d3.sum(ws,w=>w.Q);
+  const byT=d3.rollups(ws.filter(w=>w.k==='alto'),v=>({Q:d3.sum(v,w=>w.Q),n:v.length,w:v[0]}),w=>w.t).map(([t,o])=>({t,...o})).sort((a,b)=>b.Q-a.Q).slice(0,10);
+  const top=byT;
+  document.getElementById('panel').innerHTML=`<h2>${state.edo||'Península de Yucatán'}</h2>${panelBase()}
+  <div class="summary"><div><strong>${fmt(n('alto'))}</strong><span>pozos en riesgo alto</span></div><div><strong>${fmt(n('medio'))}</strong><span>riesgo medio</span></div><div><strong>${fmt(n('bajo'))}</strong><span>riesgo bajo</span></div></div>
+  <p class="note">Extracción concesionada en los pozos mostrados: ${fmt(Qt)} m³ por día, equivalente a ${f1(Qt*365/1e6)} hm³ al año.</p>
+  <h2 style="font-size:14px;margin-top:16px">Titulares con pozos en riesgo alto, por caudal</h2>
+  <ul class="list">${top.map(o=>`<li tabindex="0" data-id="${o.w.id}"><span style="color:var(--ink)">${o.t}${o.n>1?` <span style="color:var(--muted)">(${o.n} pozos)</span>`:''}</span><span>${fmt(o.Q)} m³/d</span></li>`).join('')}</ul>`;
+  document.querySelectorAll('.list li').forEach(li=>{const f=()=>select(D.wells.find(w=>w.id==li.dataset.id)); li.onclick=f; li.onkeydown=e=>{if(e.key==='Enter')f()}});
+}
+function select(w){
+  state.sel=w; draw();
+  const curve=curveFor(w.Q); const cross=curve.find(p=>p[1]>=1); const below=w.z>=w.L;
+  const verdict= below?`La rejilla registrada (${f1(w.z)} m) está por debajo del espesor estimado de la lente (${f1(w.L)} m): el pozo bombea desde la zona de mezcla.`:
+    w.k==='alto'?`El caudal supera el crítico para su lente. En el modelo, un pozo así cruza 1 g/L (salobre) en ${cross?fmt(cross[0]*12):'menos de 1'} meses.`:
+    w.k==='medio'?`El caudal está entre 30% y 100% del crítico. Cualquier aumento de bombeo o sequía lo pasa a riesgo alto.`:
+    `El caudal está por debajo del 30% del crítico; la haloclina se mantiene estable con el bombeo actual.`;
+  document.getElementById('panel').innerHTML=`<button class="link" id="back">Volver al resumen</button>
+  <h2 style="margin-top:10px">${w.t}</h2><p class="sub">${w.e}${w.y26?', volumen vigente 2026':', volumen REPDA 2011'}</p>
+  <span class="tag" style="background:${C[w.k]}">riesgo ${w.k}</span>
+  <div class="big">${w.R>=100?'>100':f1(w.R)} <small>Q / Q crítico</small></div>
+  <dl><dt>Caudal</dt><dd>${fmt(w.Q)} m³ por día</dd><dt>Distancia a la costa</dt><dd>${f1(w.d)} km</dd><dt>Espesor de lente estimado</dt><dd>${f1(w.L)} m</dd><dt>Profundidad registrada</dt><dd>${f1(w.z)} m</dd></dl>
+  <p class="note">${verdict}</p>
+  <h2 style="font-size:14px">Salinidad proyectada en el pozo</h2><p class="sub">Exceso sobre la condición sin bombeo, interpolado por caudal entre las corridas del modelo 2D.</p>
+  <div id="chart"></div>`;
+  document.getElementById('back').onclick=()=>{state.sel=null;draw()};
+  chart(curve, below);
+}
+function chart(curve, below){
+  const w=document.getElementById('chart').clientWidth||360,h=230,m={l:36,r:8,t:12,b:36};
+  const s=d3.select('#chart').append('svg').attr('viewBox',`0 0 ${w} ${h}`);
+  const x=d3.scaleLinear().domain([0,5]).range([m.l,w-m.r]), y=d3.scaleLinear().domain([0,Math.max(5,d3.max(curve,p=>p[1])*1.1)]).range([h-m.b,m.t]);
+  s.append('g').attr('transform',`translate(0,${h-m.b})`).call(d3.axisBottom(x).ticks(5)).call(a=>a.selectAll('text').attr('fill','var(--muted)')).call(a=>a.selectAll('line,path').attr('stroke','var(--line)'));
+  s.append('g').attr('transform',`translate(${m.l},0)`).call(d3.axisLeft(y).ticks(4)).call(a=>a.selectAll('text').attr('fill','var(--muted)')).call(a=>a.selectAll('line,path').attr('stroke','var(--line)'));
+  s.append('text').attr('x',w-m.r).attr('y',h-4).attr('text-anchor','end').attr('font-size',11).attr('fill','var(--muted)').text('años de bombeo');
+  s.append('text').attr('x',m.l+4).attr('y',m.t+10).attr('font-size',11).attr('fill','var(--muted)').text('g/L');
+  s.append('line').attr('x1',x(0)).attr('x2',x(5)).attr('y1',y(1)).attr('y2',y(1)).attr('stroke','var(--ink-2)').attr('stroke-dasharray','4 3');
+  s.append('text').attr('x',x(5)).attr('y',y(1)-4).attr('text-anchor','end').attr('font-size',11).attr('fill','var(--ink-2)').text('umbral salobre, 1 g/L');
+  s.append('path').attr('d',d3.line().x(p=>x(p[0])).y(p=>y(p[1]))(curve)).attr('fill','none').attr('stroke',below?'var(--alto)':'var(--accent)').attr('stroke-width',2.2);
+  if(below) s.append('text').attr('x',m.l+8).attr('y',m.t+24).attr('font-size',11).attr('fill','var(--alto)').text('Ya salobre en la condición inicial');
+}
+document.getElementById('q').addEventListener('input',e=>{state.q=e.target.value.trim().toLowerCase();state.sel=null;draw()});
+document.getElementById('edo').addEventListener('change',e=>{state.edo=e.target.value;state.sel=null;draw()});
+document.querySelectorAll('.chip').forEach(b=>b.addEventListener('click',()=>{const k=b.dataset.k;const on=b.getAttribute('aria-pressed')==='true';b.setAttribute('aria-pressed',on?'false':'true');on?state.k.delete(k):state.k.add(k);state.sel=null;draw()}));
+document.getElementById('reset').addEventListener('click',()=>{state.q='';state.edo='';state.sel=null;document.getElementById('q').value='';document.getElementById('edo').value='';document.querySelectorAll('.chip').forEach(b=>{b.setAttribute('aria-pressed','true');state.k.add(b.dataset.k)});svg.transition().duration(300).call(zoom.transform,d3.zoomIdentity);draw()});
+window.addEventListener('resize',setup); setup();
+</script>
+</body>
+</html>

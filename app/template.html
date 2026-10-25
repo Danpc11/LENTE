@@ -23,66 +23,81 @@
 :root[data-theme="dark"]{ color-scheme:dark; --land:#141E24; --land-2:#1B2831; --ink:#E9EFF1; --ink-2:#B5C3CA; --muted:#7F919A;
   --line:#2A3B44; --panel:#101A20; --sea:#0D3C48; --shelf:#0F4A58; --sea-line:#7ACBCC; --mangrove:#2F6B4B;
   --alto:#F08A77; --medio:#F5B860; --bajo:#6C7E88; --otros:#2B3A42; --accent:#7ACBCC; }
-html{scroll-padding-top:env(safe-area-inset-top,0px)} html,body{height:100%;margin:0}
-body{background:var(--land);color:var(--ink);font-family:"IBM Plex Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;font-size:14px;line-height:1.45}
+html{scroll-padding-top:env(safe-area-inset-top,0px)} html,body{height:100%;margin:0;overflow:hidden}
+body{background:var(--land);color:var(--ink);font-family:"IBM Plex Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;font-size:15px;line-height:1.45;-webkit-text-size-adjust:100%}
 *{box-sizing:inherit}
-header{padding:18px 22px 10px;border-bottom:1px solid var(--line)}
-header h1{margin:0;font-weight:300;font-size:22px;letter-spacing:-.01em}
-header h1 b{font-weight:600}
-header p{margin:6px 0 0;color:var(--ink-2);max-width:72ch}
-.wrap{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(300px,420px);gap:0;height:calc(100% - 92px)}
+button{font:inherit;color:inherit}
+.app{display:grid;grid-template-columns:minmax(0,1fr) minmax(320px,400px);height:100%}
 #map{position:relative;background:var(--land);overflow:hidden}
-#map svg{width:100%;height:100%;display:block;touch-action:none}
-.controls{position:absolute;left:14px;top:12px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;max-width:calc(100% - 28px)}
-.controls input,.controls select,.controls button{font:inherit;font-size:13px;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:6px 9px}
-.controls input{min-width:220px}
-.chip{display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border:1px solid var(--line);border-radius:999px;background:var(--panel);cursor:pointer;font-size:13px}
-.chip[aria-pressed="false"]{opacity:.45}
-.chip i{width:10px;height:10px;border-radius:50%;display:inline-block}
-.legend{position:absolute;left:14px;bottom:14px;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:7px 10px 7px 14px;font-size:12.5px;color:var(--ink-2);display:flex;align-items:center;gap:14px;flex-wrap:wrap;max-width:calc(100% - 28px)}
-.legend span{display:inline-flex;align-items:center;gap:6px}
-.legend i{width:10px;height:10px;border-radius:50%;display:inline-block}
-.legend .hint{color:var(--muted)}
-.legend button{width:26px;height:26px;border-radius:50%;border:1px solid var(--line);background:var(--land);color:var(--accent);font-weight:600;cursor:pointer;font:inherit}
+#map svg{width:100%;height:100%;display:block;touch-action:none;cursor:grab}
+.top{position:absolute;left:12px;right:12px;top:12px;display:flex;gap:8px;align-items:center;z-index:5}
+.brand{display:flex;align-items:center;gap:6px;font-weight:600;letter-spacing:.04em;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:5px 12px 5px 6px;white-space:nowrap}
+.top input{flex:1;min-width:0;height:42px;font-size:15px;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:0 16px}
+.top input:focus{outline:2px solid var(--accent);border-color:transparent}
+#info{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--panel);color:var(--accent);font-weight:700;cursor:pointer}
+.ctl{position:absolute;left:12px;right:12px;top:64px;z-index:5;display:flex;flex-direction:column;gap:8px;align-items:flex-start;pointer-events:none}
+.ctl .seg{pointer-events:auto}
+.seg{display:inline-flex;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:3px;gap:2px;white-space:nowrap;max-width:100%;overflow-x:auto;scrollbar-width:none}
+.seg::-webkit-scrollbar{display:none}
+.seg button{border:0;background:transparent;border-radius:999px;padding:7px 12px;cursor:pointer;color:var(--ink-2);display:inline-flex;align-items:center;gap:6px;min-height:36px}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.seg button.k[aria-pressed="false"]{opacity:.45}
+.seg button.k[aria-pressed="true"]{background:transparent;color:var(--ink)}
+.seg button i{width:11px;height:11px;border-radius:50%;display:inline-block}
+.zoom{position:absolute;right:12px;bottom:14px;z-index:5;display:flex;flex-direction:column;gap:6px}
+.zoom button{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--panel);font-size:20px;cursor:pointer}
+aside{border-left:1px solid var(--line);background:var(--panel);overflow:auto;padding:18px 20px;-webkit-overflow-scrolling:touch}
+aside h2{font-weight:500;font-size:18px;margin:0 0 4px;line-height:1.3}
+aside .sub{color:var(--muted);margin:0 0 14px}
+.big{font-weight:300;font-size:46px;line-height:1;margin:6px 0 2px}
+.big small{font-size:14px;color:var(--muted);font-weight:400}
+dl{display:grid;grid-template-columns:auto 1fr;gap:5px 14px;margin:14px 0;font-size:14px}
+dt{color:var(--muted)} dd{margin:0}
+.tag{display:inline-block;padding:4px 10px;border-radius:999px;color:#fff;font-size:13px;font-weight:500}
+.note{border-left:3px solid var(--line);padding:6px 10px;color:var(--ink-2);font-size:13.5px;margin:12px 0}
+#chart svg{width:100%;height:230px;display:block;overflow:visible}
+.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0 6px}
+.summary div{border-top:3px solid var(--line);padding-top:6px}
+.summary strong{display:block;font-size:24px;font-weight:300}
+.summary span{font-size:12.5px;color:var(--muted)}
+.list{margin:0;padding:0;list-style:none}
+.list li{padding:10px 0;border-top:1px solid var(--line);cursor:pointer;display:flex;justify-content:space-between;gap:10px;font-size:14px;min-height:44px;align-items:center}
+.list li span:first-child{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.list li:hover,.list li:focus{color:var(--accent)} .list li span{color:var(--muted);white-space:nowrap}
+button.link{background:none;border:0;color:var(--accent);padding:0;font:inherit;cursor:pointer;text-decoration:underline;min-height:44px}
+.sim{margin-top:14px;border-top:1px solid var(--line);padding-top:12px}
+.sim label{font-size:14px;font-weight:500;display:block;margin-bottom:6px}
+.simrow{display:flex;align-items:center;gap:12px}
+.simrow input{flex:1;accent-color:var(--accent);height:32px}
+.simrow output{min-width:42px;font-weight:600;font-variant-numeric:tabular-nums}
+.simout{font-size:14px;color:var(--ink-2);margin-top:8px;min-height:1.4em}
 .about{position:fixed;inset:0;background:rgba(18,51,62,.45);display:flex;align-items:center;justify-content:center;z-index:50;padding:20px}
 .about[hidden]{display:none}
 .about-card{background:var(--panel);color:var(--ink);max-width:520px;border-radius:10px;padding:20px 22px;box-shadow:0 20px 50px rgba(0,0,0,.25)}
 .about-card h2{margin:0 0 10px;font-size:17px;font-weight:600}
-.about-card p{margin:0 0 10px;font-size:13.5px;line-height:1.5}
-.about-card button{font:inherit;background:var(--accent);color:#fff;border:0;border-radius:6px;padding:7px 14px;cursor:pointer}
-aside{border-left:1px solid var(--line);background:var(--panel);overflow:auto;padding:18px 20px}
-aside h2{font-weight:500;font-size:17px;margin:0 0 4px;line-height:1.3}
-aside .sub{color:var(--muted);margin:0 0 14px}
-.big{font-weight:300;font-size:44px;line-height:1;margin:6px 0 2px}
-.big small{font-size:14px;color:var(--muted);font-weight:400}
-dl{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin:14px 0;font-size:13px}
-dt{color:var(--muted)} dd{margin:0}
-.tag{display:inline-block;padding:3px 9px;border-radius:999px;color:#fff;font-size:12px;font-weight:500}
-.note{border-left:3px solid var(--line);padding:6px 10px;color:var(--ink-2);font-size:12.5px;margin:12px 0}
-#chart svg{width:100%;height:220px;display:block;overflow:visible}
-.sim{margin-top:14px;border-top:1px solid var(--line);padding-top:12px}
-.sim label{font-size:13px;font-weight:500;display:block;margin-bottom:6px}
-.simrow{display:flex;align-items:center;gap:12px}
-.simrow input{flex:1;accent-color:var(--accent)}
-.simrow output{min-width:42px;font-weight:600;font-variant-numeric:tabular-nums}
-.simout{font-size:13px;color:var(--ink-2);margin-top:8px;min-height:1.4em}
-.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0 6px}
-.summary div{border-top:3px solid var(--line);padding-top:6px}
-.summary strong{display:block;font-size:22px;font-weight:300}
-.summary span{font-size:12px;color:var(--muted)}
-.list{margin:0;padding:0;list-style:none}
-.list li{padding:7px 0;border-top:1px solid var(--line);cursor:pointer;display:flex;justify-content:space-between;gap:10px;font-size:13px}
-.list li span:first-child{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.list li:hover,.list li:focus{color:var(--accent)} .list li span{color:var(--muted);white-space:nowrap}
-button.link{background:none;border:0;color:var(--accent);padding:0;font:inherit;cursor:pointer;text-decoration:underline}
+.about-card p{margin:0 0 10px;font-size:14px;line-height:1.5}
+.about-card button{background:var(--accent);color:#fff;border:0;border-radius:6px;padding:9px 16px;cursor:pointer;min-height:44px}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-@media (max-width:860px){ .wrap{grid-template-columns:1fr;grid-template-rows:60vh auto;height:auto} aside{border-left:0;border-top:1px solid var(--line)} .controls input{min-width:160px} }
+@media (max-width:860px){
+  .app{grid-template-columns:1fr;grid-template-rows:1fr auto}
+  aside{border-left:0;border-top:1px solid var(--line);max-height:36vh;border-radius:16px 16px 0 0;box-shadow:0 -8px 24px rgba(0,0,0,.08);padding:12px 16px 24px}
+  aside.sel{max-height:64vh}
+  aside::before{content:'';display:block;width:40px;height:4px;border-radius:2px;background:var(--line);margin:0 auto 10px}
+  .summary strong{font-size:20px}
+  .brand span{display:none} .brand{padding:5px 6px}
+  .ctl{top:62px;gap:6px} .seg button{padding:6px 10px;min-height:34px;font-size:14px}
+  .zoom{bottom:12px}
+  .big{font-size:38px}
+}
 @media (prefers-reduced-motion:reduce){ *{transition:none!important} }
 </style>
 </head>
 <body>
-<header>
-  <div style="display:flex;align-items:center;gap:12px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="38" height="38">
+<div class="app">
+  <div id="map">
+    <svg id="svg" role="img" aria-label="Mapa de pozos de servicios por vulnerabilidad"></svg>
+    <div class="top">
+      <div class="brand"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="30" height="30">
   <defs><clipPath id="c"><circle cx="60" cy="60" r="54"/></clipPath></defs>
   <circle cx="60" cy="60" r="54" fill="#12333E"/>
   <g clip-path="url(#c)">
@@ -98,21 +113,27 @@ button.link{background:none;border:0;color:var(--accent);padding:0;font:inherit;
     <path d="M47 21 a13 13 0 0 1 26 0" fill="none" stroke="#D96C59" stroke-width="3" stroke-linecap="round"/>
   </g>
 </svg>
-<h1><b>LENTE</b> Atlas de vulnerabilidad a la intrusión salina, pozos de servicios de la península de Yucatán</h1></div>
-  <p>__NWELLS__ pozos de hoteles, parques y otros servicios, clasificados por su vulnerabilidad a la intrusión salina. Toque un pozo para ver su ficha.</p>
-</header>
-<div class="wrap">
-  <div id="map">
-    <svg id="svg" role="img" aria-label="Mapa de pozos de servicios por categoría de riesgo"></svg>
-    <div class="controls">
-      <input id="q" type="search" placeholder="Buscar titular (p. ej. Kukulcán, Dine, Xcaret)" aria-label="Buscar titular">
-      <select id="edo" aria-label="Estado"><option value="">Toda la península</option><option>Quintana Roo</option><option>Yucatán</option><option>Campeche</option></select>
-      <button class="chip" data-k="alto" aria-pressed="true"><i style="background:var(--alto)"></i>Alta</button>
-      <button class="chip" data-k="medio" aria-pressed="true"><i style="background:var(--medio)"></i>Media</button>
-      <button class="chip" data-k="bajo" aria-pressed="true"><i style="background:var(--bajo)"></i>Baja</button>
-      <button id="reset" type="button">Ver todo</button>
+<span>LENTE</span></div>
+      <input id="q" type="search" placeholder="Buscar hotel, parque o titular" aria-label="Buscar titular" autocomplete="off">
+      <button id="info" type="button" aria-label="Cómo se calcula">i</button>
     </div>
-    <div class="legend"><span><i style="background:var(--alto)"></i>Alta</span><span><i style="background:var(--medio)"></i>Media</span><span><i style="background:var(--bajo)"></i>Baja</span><span><i style="background:var(--mangrove);border-radius:2px"></i>Manglar</span><span class="hint">Tamaño del punto: caudal. Arrastre y acerque con la rueda.</span><button id="info" type="button" aria-label="Acerca de los datos">i</button></div>
+    <div class="ctl">
+      <div class="seg" role="group" aria-label="Zona">
+        <button type="button" data-edo="" aria-pressed="true">Toda la península</button>
+        <button type="button" data-edo="Quintana Roo" aria-pressed="false">Quintana Roo</button>
+        <button type="button" data-edo="Yucatán" aria-pressed="false">Yucatán</button>
+        <button type="button" data-edo="Campeche" aria-pressed="false">Campeche</button>
+      </div>
+      <div class="seg" role="group" aria-label="Vulnerabilidad">
+        <button type="button" class="k" data-k="alto" aria-pressed="true"><i style="background:var(--alto)"></i>Alta</button>
+        <button type="button" class="k" data-k="medio" aria-pressed="true"><i style="background:var(--medio)"></i>Media</button>
+        <button type="button" class="k" data-k="bajo" aria-pressed="true"><i style="background:var(--bajo)"></i>Baja</button>
+      </div>
+    </div>
+    <div class="zoom"><button id="zin" type="button" aria-label="Acercar">+</button><button id="zout" type="button" aria-label="Alejar">−</button><button id="reset" type="button" aria-label="Ver toda la península">⌂</button></div>
+  </div>
+  <aside id="panel" aria-live="polite"></aside>
+</div>
 <div id="about" class="about" hidden role="dialog" aria-modal="true" aria-labelledby="about-h">
   <div class="about-card">
     <h2 id="about-h">Cómo se calcula</h2>
@@ -121,9 +142,6 @@ button.link{background:none;border:0;color:var(--accent);padding:0;font:inherit;
     <p><b>Datos</b>: REPDA de CONAGUA (consulta 2026 y servicio REST 2011), costa 2024, manglar 2025 y cuerpos de agua 1:50 000 de CONABIO, batimetría de Natural Earth.</p>
     <button id="about-close" type="button">Cerrar</button>
   </div>
-</div>
-  </div>
-  <aside id="panel"></aside>
 </div>
 <script id="data" type="application/json">__DATA__</script>
 <script>
@@ -155,15 +173,19 @@ function draw(){
   g.selectAll('text.city').data(cities).join('text').attr('class','city').attr('x',d=>proj([d[1],d[2]])[0]+6).attr('y',d=>proj([d[1],d[2]])[1]).text(d=>d[0])
     .attr('font-size',11/zk).attr('fill','var(--ink-2)');
   const ws=D.wells.filter(visible).sort((a,b)=>(a.k==='alto')-(b.k==='alto'));
-  g.selectAll('circle').data(ws,d=>d.id).join('circle')
+  g.selectAll('circle.w').data(ws,d=>d.id).join('circle')
     .attr('cx',d=>proj([d.lon,d.lat])[0]).attr('cy',d=>proj([d.lon,d.lat])[1]).attr('r',d=>r(d.Q)/Math.pow(zk,0.75))
-    .attr('fill',d=>C[d.k]).attr('fill-opacity',d=>d.k==='bajo'?.6:.92).attr('stroke',d=>state.sel&&state.sel.id===d.id?'var(--ink)':'none').attr('stroke-width',2)
-    .style('cursor','pointer').attr('tabindex',0).attr('role','button').attr('aria-label',d=>`${d.t}, riesgo ${d.k}`)
-    .on('click',(e,d)=>select(d)).on('keydown',(e,d)=>{if(e.key==='Enter')select(d)});
+    .attr('class','w').attr('fill',d=>C[d.k]).attr('fill-opacity',d=>d.k==='bajo'?.6:.92).attr('stroke',d=>state.sel&&state.sel.id===d.id?'var(--ink)':'none').attr('stroke-width',2)
+    .style('cursor','pointer').attr('tabindex',0).attr('role','button').attr('aria-label',d=>`${d.t}, vulnerabilidad ${d.k}`)
+    .on('click',(e,d)=>{e.stopPropagation();select(d)}).on('keydown',(e,d)=>{if(e.key==='Enter')select(d)});
+  g.selectAll('circle.hit').data(ws,d=>d.id).join('circle').attr('class','hit')
+    .attr('cx',d=>proj([d.lon,d.lat])[0]).attr('cy',d=>proj([d.lon,d.lat])[1]).attr('r',d=>Math.max(14/zk,r(d.Q)/Math.pow(zk,0.75)+4/zk))
+    .attr('fill','transparent').style('cursor','pointer').on('click',(e,d)=>{e.stopPropagation();select(d)});
   summary(ws);
 }
-const zoom=d3.zoom().scaleExtent([1,40]).on('zoom',e=>{zk=e.transform.k; g.attr('transform',e.transform); g.selectAll('circle').attr('r',d=>r(d.Q)/Math.pow(zk,0.75)).attr('stroke-width',2/e.transform.k); g.selectAll('text.city').attr('font-size',11/e.transform.k); g.selectAll('path.coast').attr('stroke-width',1/e.transform.k)});
-svg.call(zoom);
+const zoom=d3.zoom().scaleExtent([1,40]).on('zoom',e=>{zk=e.transform.k; g.attr('transform',e.transform); g.selectAll('circle:not(.hit)').attr('r',d=>r(d.Q)/Math.pow(zk,0.75)).attr('stroke-width',2/e.transform.k); g.selectAll('circle.hit').attr('r',d=>Math.max(14/zk,r(d.Q)/Math.pow(zk,0.75)+4/zk)); g.selectAll('text.city').attr('font-size',11/e.transform.k); g.selectAll('path.coast').attr('stroke-width',1/e.transform.k)});
+svg.call(zoom).on('dblclick.zoom',null);
+svg.on('click',()=>{if(state.sel){state.sel=null;document.getElementById('panel').classList.remove('sel');draw()}});
 function curveFor(Q){
   const keys=Object.keys(D.curves).map(Number).sort((a,b)=>a-b); const lq=Math.log(Math.max(Q,1));
   let lo=keys[0],hi=keys[keys.length-1]; for(let i=0;i<keys.length-1;i++){if(lq>=Math.log(keys[i])&&lq<=Math.log(keys[i+1])){lo=keys[i];hi=keys[i+1]}}
@@ -171,13 +193,13 @@ function curveFor(Q){
   let scale=1; if(Q<keys[0]) scale=Math.max(Q,1)/keys[0]; if(Q>keys[keys.length-1]) scale=Math.min(Q/keys[keys.length-1],2.5);
   return a.map((p,i)=>[p[0],Math.min(35,(p[1]*(1-tt)+b[i][1]*tt)*scale)]);
 }
-function panelBase(){return `<p class="sub">Pozos de servicios concesionados, clasificados por vulnerabilidad al ascenso de la haloclina.</p>`}
+
 function summary(ws){
-  if(state.sel) return;
+  if(state.sel) return; document.getElementById('panel').classList.remove('sel');
   const n=k=>ws.filter(w=>w.k===k).length; const Qt=d3.sum(ws,w=>w.Q);
   const byT=d3.rollups(ws.filter(w=>w.k==='alto'),v=>({Q:d3.sum(v,w=>w.Q),n:v.length,w:v[0]}),w=>w.t).map(([t,o])=>({t,...o})).sort((a,b)=>b.Q-a.Q).slice(0,10);
   const top=byT;
-  document.getElementById('panel').innerHTML=`<h2>${state.edo||'Península de Yucatán'}</h2>${panelBase()}
+  document.getElementById('panel').innerHTML=`<h2>${state.edo||'Península de Yucatán'}</h2><p class="sub">${fmt(ws.length)} pozos de servicios. Toque un pozo o elija uno de la lista.</p>
   <div class="summary"><div><strong>${fmt(n('alto'))}</strong><span>vulnerabilidad alta</span></div><div><strong>${fmt(n('medio'))}</strong><span>media</span></div><div><strong>${fmt(n('bajo'))}</strong><span>baja</span></div></div>
   <p class="note">Extracción concesionada en los pozos mostrados: ${fmt(Qt)} m³ por día, equivalente a ${f1(Qt*365/1e6)} hm³ al año.</p>
   <h2 style="font-size:14px;margin-top:16px">Titulares con pozos por encima del umbral, por caudal</h2>
@@ -185,14 +207,14 @@ function summary(ws){
   document.querySelectorAll('.list li').forEach(li=>{const f=()=>select(D.wells.find(w=>w.id==li.dataset.id)); li.onclick=f; li.onkeydown=e=>{if(e.key==='Enter')f()}});
 }
 function select(w){
-  state.sel=w; draw();
+  state.sel=w; draw(); const ps=document.getElementById('panel'); ps.classList.add('sel'); ps.scrollTop=0;
   const curve=curveFor(w.Q); const cross=curve.find(p=>p[1]>=1); const below=w.z>=w.L;
   const verdict= below?`La rejilla registrada (${f1(w.z)} m) está por debajo del espesor estimado de la lente (${f1(w.L)} m): el pozo bombea desde la zona de mezcla.`:
     w.k==='alto'?`El caudal concesionado supera el crítico calculado para su lente. En el escenario simulado más cercano, un pozo así cruza 1 g/L (salobre) en ${cross?fmt(cross[0]*12):'menos de 1'} meses; sin medición en campo es una estimación.`:
     w.k==='medio'?`El caudal está entre 30% y 100% del crítico. Cualquier aumento de bombeo o sequía lo pasa a riesgo alto.`:
     `El caudal está por debajo del 30% del crítico; la haloclina se mantiene estable con el bombeo actual.`;
   document.getElementById('panel').innerHTML=`<button class="link" id="back">Volver al resumen</button>
-  <h2 style="margin-top:10px">${w.t}</h2><p class="sub">${w.e}${w.y26?', volumen vigente 2026':', volumen REPDA 2011'}</p>
+  <h2 style="margin-top:10px">${w.t}</h2><p class="sub">${w.e} · ${w.y26?'volumen vigente 2026':'volumen REPDA 2011'}</p>
   <span class="tag" style="background:${C[w.k]}">vulnerabilidad ${w.k==="alto"?"alta":w.k==="medio"?"media":"baja"}</span>
   <div class="big">${w.R>=100?'>100':f1(w.R)} <small>Q / Q crítico</small></div>
   <dl><dt>Caudal</dt><dd>${fmt(w.Q)} m³ por día</dd><dt>Distancia a la costa</dt><dd>${f1(w.d)} km</dd><dt>Espesor de lente estimado</dt><dd>${f1(w.L)} m</dd><dt>Profundidad registrada</dt><dd>${f1(w.z)} m</dd></dl>
@@ -200,7 +222,7 @@ function select(w){
   <h2 style="font-size:14px">Escenario simulado para su caudal</h2><p class="sub">Exceso de salinidad sobre la condición sin bombeo, interpolado entre las corridas del modelo 2D. No es un pronóstico calibrado.</p>
   <div id="chart"></div>
   <div class="sim"><label for="red">Simular reducción de bombeo</label><div class="simrow"><input id="red" type="range" min="0" max="50" step="5" value="0" aria-label="Reducción de bombeo, por ciento"><output id="redv">0%</output></div><div id="simout" class="simout"></div></div>`;
-  document.getElementById('back').onclick=()=>{state.sel=null;draw()};
+  document.getElementById('back').onclick=()=>{state.sel=null;document.getElementById('panel').classList.remove('sel');draw()};
   chart(curve, below);
   const red=document.getElementById('red'), redv=document.getElementById('redv'), simout=document.getElementById('simout');
   const base=w.Q, Rbase=w.R;
@@ -228,15 +250,21 @@ function chart(curve, below, ref){
   if(below) s.append('text').attr('x',m.l+8).attr('y',m.t+24).attr('font-size',11).attr('fill','var(--alto)').text('Ya salobre en la condición inicial');
 }
 document.getElementById('q').addEventListener('input',e=>{state.q=e.target.value.trim().toLowerCase();state.sel=null;draw()});
-document.getElementById('edo').addEventListener('change',e=>{state.edo=e.target.value;state.sel=null;draw()});
-document.querySelectorAll('.chip').forEach(b=>b.addEventListener('click',()=>{const k=b.dataset.k;const on=b.getAttribute('aria-pressed')==='true';b.setAttribute('aria-pressed',on?'false':'true');on?state.k.delete(k):state.k.add(k);state.sel=null;draw()}));
-document.getElementById('reset').addEventListener('click',()=>{state.q='';state.edo='';state.sel=null;document.getElementById('q').value='';document.getElementById('edo').value='';document.querySelectorAll('.chip').forEach(b=>{b.setAttribute('aria-pressed','true');state.k.add(b.dataset.k)});svg.transition().duration(300).call(zoom.transform,d3.zoomIdentity);draw()});
+document.querySelectorAll('.seg button[data-edo]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.seg button[data-edo]').forEach(x=>x.setAttribute('aria-pressed','false'));b.setAttribute('aria-pressed','true');state.edo=b.dataset.edo;state.sel=null;draw();zoomTo(state.edo)}));
+document.querySelectorAll('.seg button.k').forEach(b=>b.addEventListener('click',()=>{const k=b.dataset.k;const on=b.getAttribute('aria-pressed')==='true';if(on&&state.k.size===1)return;b.setAttribute('aria-pressed',on?'false':'true');on?state.k.delete(k):state.k.add(k);state.sel=null;draw()}));
+document.getElementById('zin').addEventListener('click',()=>svg.transition().duration(250).call(zoom.scaleBy,1.6));
+document.getElementById('zout').addEventListener('click',()=>svg.transition().duration(250).call(zoom.scaleBy,1/1.6));
+document.getElementById('reset').addEventListener('click',()=>{state.q='';state.sel=null;document.getElementById('q').value='';svg.transition().duration(300).call(zoom.transform,d3.zoomIdentity);draw()});
+const EXT={'Quintana Roo':[[-88.3,19.6],[-86.6,21.6]],'Yucatán':[[-90.5,19.5],[-87.4,21.7]],'Campeche':[[-92.6,17.7],[-89.0,20.9]]};
+function zoomTo(e){const b=EXT[e]; if(!b){svg.transition().duration(400).call(zoom.transform,d3.zoomIdentity);return;}
+  const [x0,y0]=proj(b[0]),[x1,y1]=proj(b[1]);const k=Math.min(W/Math.abs(x1-x0),H/Math.abs(y1-y0))*0.85;const tx=W/2-k*(x0+x1)/2,ty=H/2-k*(y0+y1)/2;
+  svg.transition().duration(500).call(zoom.transform,d3.zoomIdentity.translate(tx,ty).scale(k));}
 const about=document.getElementById('about');
 document.getElementById('info').addEventListener('click',()=>{about.hidden=false;document.getElementById('about-close').focus()});
 document.getElementById('about-close').addEventListener('click',()=>{about.hidden=true});
 about.addEventListener('click',e=>{if(e.target===about)about.hidden=true});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')about.hidden=true});
-window.addEventListener('resize',setup); setup();
+window.addEventListener('resize',()=>{setup();svg.call(zoom.transform,d3.zoomIdentity);}); setup();
 </script>
 </body>
 </html>

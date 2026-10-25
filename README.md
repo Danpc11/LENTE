@@ -4,18 +4,12 @@
 ![MODFLOW](https://img.shields.io/badge/MODFLOW-6.6.1-0E7C86)
 ![D3](https://img.shields.io/badge/D3-7.9-F9A03C?logo=d3dotjs&logoColor=white)
 [![Web app](https://img.shields.io/badge/Web%20app-GitHub%20Pages-0E7C86?logo=github&logoColor=white)](https://danpc11.github.io/LENTE/)
-[![Propuesta](https://img.shields.io/badge/Propuesta-PDF-13303B?logo=adobeacrobatreader&logoColor=white)](docs/LENTE_propuesta.pdf)
-![Datos](https://img.shields.io/badge/datos-REPDA%202011%20%2B%202026%20%7C%20CONABIO%202024--25-1f6feb)
-![Fase](https://img.shields.io/badge/fase-prueba%20de%20concepto-lightgrey)
-[![Licencia](https://img.shields.io/badge/licencia-uso%20restringido-C8102E)](LICENSE)
 
 **Inteligencia hidrogeológica para proteger la infraestructura hídrica del turismo costero.**
 
 LENTE transforma datos públicos, modelado físico y monitoreo en campo en una respuesta concreta para cada operador: qué pozos están expuestos a la intrusión salina, cómo evoluciona esa exposición con el bombeo y qué decisiones la reducen. No vendemos mapas ni sensores; vendemos continuidad operativa del abastecimiento de agua.
 
 **Explora la plataforma:** https://danpc11.github.io/LENTE/
-
-[![LENTE Atlas](figures/shot_qroo.png)](https://danpc11.github.io/LENTE/)
 
 34,413 pozos georreferenciados en la península · 1,802 pozos de servicios analizados · 179 captaciones por encima del umbral crítico calculado · 142 titulares identificados como prospectos en la costa de Quintana Roo.
 

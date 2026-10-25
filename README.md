@@ -5,7 +5,6 @@
 ![D3](https://img.shields.io/badge/D3-7.9-F9A03C?logo=d3dotjs&logoColor=white)
 [![Web app](https://img.shields.io/badge/Web%20app-GitHub%20Pages-0E7C86?logo=github&logoColor=white)](https://danpc11.github.io/LENTE/)
 ![Fase](https://img.shields.io/badge/fase-prueba%20de%20concepto-lightgrey)
-[![Licencia](https://img.shields.io/badge/licencia-uso%20restringido-C8102E)](LICENSE)
 
 **Pronóstico de intrusión salina en los pozos que abastecen al turismo de la península de Yucatán.**
 

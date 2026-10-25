@@ -6,7 +6,7 @@
 <title>LENTE Atlas: vulnerabilidad a la intrusión salina en pozos de servicios de la península de Yucatán</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script>__D3__</script>
 <style>
 :root{
   --land:#F5F3EC; --land-2:#EAE6DB; --ink:#12333E; --ink-2:#3C5964; --muted:#7A8F98;
@@ -39,8 +39,17 @@ header p{margin:6px 0 0;color:var(--ink-2);max-width:72ch}
 .chip{display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border:1px solid var(--line);border-radius:999px;background:var(--panel);cursor:pointer;font-size:13px}
 .chip[aria-pressed="false"]{opacity:.45}
 .chip i{width:10px;height:10px;border-radius:50%;display:inline-block}
-.legend{position:absolute;left:14px;bottom:14px;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:9px 12px;font-size:12px;color:var(--ink-2);max-width:300px}
-.legend b{color:var(--ink);font-weight:500}
+.legend{position:absolute;left:14px;bottom:14px;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:7px 10px 7px 14px;font-size:12.5px;color:var(--ink-2);display:flex;align-items:center;gap:14px;flex-wrap:wrap;max-width:calc(100% - 28px)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:10px;height:10px;border-radius:50%;display:inline-block}
+.legend .hint{color:var(--muted)}
+.legend button{width:26px;height:26px;border-radius:50%;border:1px solid var(--line);background:var(--land);color:var(--accent);font-weight:600;cursor:pointer;font:inherit}
+.about{position:fixed;inset:0;background:rgba(18,51,62,.45);display:flex;align-items:center;justify-content:center;z-index:50;padding:20px}
+.about[hidden]{display:none}
+.about-card{background:var(--panel);color:var(--ink);max-width:520px;border-radius:10px;padding:20px 22px;box-shadow:0 20px 50px rgba(0,0,0,.25)}
+.about-card h2{margin:0 0 10px;font-size:17px;font-weight:600}
+.about-card p{margin:0 0 10px;font-size:13.5px;line-height:1.5}
+.about-card button{font:inherit;background:var(--accent);color:#fff;border:0;border-radius:6px;padding:7px 14px;cursor:pointer}
 aside{border-left:1px solid var(--line);background:var(--panel);overflow:auto;padding:18px 20px}
 aside h2{font-weight:500;font-size:17px;margin:0 0 4px;line-height:1.3}
 aside .sub{color:var(--muted);margin:0 0 14px}
@@ -84,7 +93,7 @@ button.link{background:none;border:0;color:var(--accent);padding:0;font:inherit;
   </g>
 </svg>
 <h1><b>LENTE</b> Atlas de vulnerabilidad a la intrusión salina, pozos de servicios de la península de Yucatán</h1></div>
-  <p>__NWELLS__ pozos concesionados a hoteles, parques y otros servicios, ubicados con el REPDA y clasificados por el cociente entre su caudal y el caudal crítico de ascenso de la haloclina. Es una clasificación física, no una medición: toque un pozo para ver su ficha y el escenario simulado que le corresponde.</p>
+  <p>__NWELLS__ pozos de hoteles, parques y otros servicios, clasificados por su vulnerabilidad a la intrusión salina. Toque un pozo para ver su ficha.</p>
 </header>
 <div class="wrap">
   <div id="map">
@@ -92,12 +101,21 @@ button.link{background:none;border:0;color:var(--accent);padding:0;font:inherit;
     <div class="controls">
       <input id="q" type="search" placeholder="Buscar titular (p. ej. Kukulcán, Dine, Xcaret)" aria-label="Buscar titular">
       <select id="edo" aria-label="Estado"><option value="">Toda la península</option><option>Quintana Roo</option><option>Yucatán</option><option>Campeche</option></select>
-      <button class="chip" data-k="alto" aria-pressed="true"><i style="background:var(--alto)"></i>Alto</button>
-      <button class="chip" data-k="medio" aria-pressed="true"><i style="background:var(--medio)"></i>Medio</button>
-      <button class="chip" data-k="bajo" aria-pressed="true"><i style="background:var(--bajo)"></i>Bajo</button>
+      <button class="chip" data-k="alto" aria-pressed="true"><i style="background:var(--alto)"></i>Alta</button>
+      <button class="chip" data-k="medio" aria-pressed="true"><i style="background:var(--medio)"></i>Media</button>
+      <button class="chip" data-k="bajo" aria-pressed="true"><i style="background:var(--bajo)"></i>Baja</button>
       <button id="reset" type="button">Ver todo</button>
     </div>
-    <div class="legend"><b>Vulnerabilidad</b> = caudal del pozo entre el caudal crítico de ascenso estable de la haloclina para su posición y profundidad registrada. Alta: mayor que 1. Media: entre 0.3 y 1. Baja: menor que 0.3. El tamaño del punto sigue al caudal. Verde: manglar 2025. Azul: mar y lagunas perennes. Costa 2024, manglar y cuerpos de agua de CONABIO; batimetría de Natural Earth. Arrastre para mover, rueda o pellizco para acercar.</div>
+    <div class="legend"><span><i style="background:var(--alto)"></i>Alta</span><span><i style="background:var(--medio)"></i>Media</span><span><i style="background:var(--bajo)"></i>Baja</span><span><i style="background:var(--mangrove);border-radius:2px"></i>Manglar</span><span class="hint">Tamaño del punto: caudal. Arrastre y acerque con la rueda.</span><button id="info" type="button" aria-label="Acerca de los datos">i</button></div>
+<div id="about" class="about" hidden role="dialog" aria-modal="true" aria-labelledby="about-h">
+  <div class="about-card">
+    <h2 id="about-h">Cómo se calcula</h2>
+    <p><b>Vulnerabilidad</b> = caudal del pozo entre el caudal crítico de ascenso estable de la haloclina para su distancia a la costa y su profundidad registrada. Alta: mayor que 1. Media: entre 0.3 y 1. Baja: menor que 0.3. Es una clasificación física, no una medición de salinidad.</p>
+    <p><b>Curva por pozo</b>: escenario del modelo 2D de densidad variable (MODFLOW 6) más cercano a su caudal, como exceso sobre la condición sin bombeo. No es un pronóstico calibrado.</p>
+    <p><b>Datos</b>: REPDA de CONAGUA (consulta 2026 y servicio REST 2011), costa 2024, manglar 2025 y cuerpos de agua 1:50 000 de CONABIO, batimetría de Natural Earth.</p>
+    <button id="about-close" type="button">Cerrar</button>
+  </div>
+</div>
   </div>
   <aside id="panel"></aside>
 </div>
@@ -127,9 +145,9 @@ function draw(){
   g.append('g').selectAll('path').data(G.mangrove.features).join('path').attr('d',path).attr('fill','var(--mangrove)').attr('stroke','none').attr('fill-opacity',.85);
   g.append('g').selectAll('path').data(G.water.features).join('path').attr('d',path).attr('fill','var(--sea)').attr('stroke','var(--sea-line)').attr('stroke-width',.3);
   g.append('g').selectAll('path').data(G.rivers.features).join('path').attr('d',path).attr('fill','none').attr('stroke','var(--sea-line)').attr('stroke-width',.8);
-  g.append('g').selectAll('path.coast').data(G.coast.features).join('path').attr('class','coast').attr('d',path).attr('fill','none').attr('stroke','var(--sea-line)').attr('stroke-width',1);
+  g.append('g').selectAll('path.coast').data(G.coast.features).join('path').attr('class','coast').attr('d',path).attr('fill','none').attr('stroke','var(--sea-line)').attr('stroke-width',1/zk);
   g.selectAll('text.city').data(cities).join('text').attr('class','city').attr('x',d=>proj([d[1],d[2]])[0]+6).attr('y',d=>proj([d[1],d[2]])[1]).text(d=>d[0])
-    .attr('font-size',11).attr('fill','var(--ink-2)');
+    .attr('font-size',11/zk).attr('fill','var(--ink-2)');
   const ws=D.wells.filter(visible).sort((a,b)=>(a.k==='alto')-(b.k==='alto'));
   g.selectAll('circle').data(ws,d=>d.id).join('circle')
     .attr('cx',d=>proj([d.lon,d.lat])[0]).attr('cy',d=>proj([d.lon,d.lat])[1]).attr('r',d=>r(d.Q)/Math.pow(zk,0.75))
@@ -147,7 +165,7 @@ function curveFor(Q){
   let scale=1; if(Q<keys[0]) scale=Math.max(Q,1)/keys[0]; if(Q>keys[keys.length-1]) scale=Math.min(Q/keys[keys.length-1],2.5);
   return a.map((p,i)=>[p[0],Math.min(35,(p[1]*(1-tt)+b[i][1]*tt)*scale)]);
 }
-function panelBase(){return `<p class="sub">Fuente: REPDA (CONAGUA) 2011 y 2026, red piezométrica 2025, modelo LENTE 2D. Estimaciones por pozo; la calibración de campo con sensor de conductividad las convierte en pronóstico.</p>`}
+function panelBase(){return `<p class="sub">Pozos de servicios concesionados, clasificados por vulnerabilidad al ascenso de la haloclina.</p>`}
 function summary(ws){
   if(state.sel) return;
   const n=k=>ws.filter(w=>w.k===k).length; const Qt=d3.sum(ws,w=>w.Q);
@@ -195,6 +213,11 @@ document.getElementById('q').addEventListener('input',e=>{state.q=e.target.value
 document.getElementById('edo').addEventListener('change',e=>{state.edo=e.target.value;state.sel=null;draw()});
 document.querySelectorAll('.chip').forEach(b=>b.addEventListener('click',()=>{const k=b.dataset.k;const on=b.getAttribute('aria-pressed')==='true';b.setAttribute('aria-pressed',on?'false':'true');on?state.k.delete(k):state.k.add(k);state.sel=null;draw()}));
 document.getElementById('reset').addEventListener('click',()=>{state.q='';state.edo='';state.sel=null;document.getElementById('q').value='';document.getElementById('edo').value='';document.querySelectorAll('.chip').forEach(b=>{b.setAttribute('aria-pressed','true');state.k.add(b.dataset.k)});svg.transition().duration(300).call(zoom.transform,d3.zoomIdentity);draw()});
+const about=document.getElementById('about');
+document.getElementById('info').addEventListener('click',()=>{about.hidden=false;document.getElementById('about-close').focus()});
+document.getElementById('about-close').addEventListener('click',()=>{about.hidden=true});
+about.addEventListener('click',e=>{if(e.target===about)about.hidden=true});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')about.hidden=true});
 window.addEventListener('resize',setup); setup();
 </script>
 </body>

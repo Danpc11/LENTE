@@ -4,9 +4,12 @@
 ![MODFLOW](https://img.shields.io/badge/MODFLOW-6.6.1-0E7C86)
 ![D3](https://img.shields.io/badge/D3-7.9-F9A03C?logo=d3dotjs&logoColor=white)
 [![Web app](https://img.shields.io/badge/Web%20app-GitHub%20Pages-0E7C86?logo=github&logoColor=white)](https://danpc11.github.io/LENTE/)
+[![Propuesta](https://img.shields.io/badge/Propuesta-PDF-13303B?logo=adobeacrobatreader&logoColor=white)](docs/LENTE_propuesta.pdf)
+![Datos](https://img.shields.io/badge/datos-REPDA%202011%20%2B%202026%20%7C%20CONABIO%202024--25-1f6feb)
 ![Fase](https://img.shields.io/badge/fase-prueba%20de%20concepto-lightgrey)
+[![Licencia](https://img.shields.io/badge/licencia-uso%20restringido-C8102E)](LICENSE)
 
-**Pronóstico de intrusión salina en los pozos que abastecen al turismo de la península de Yucatán.**
+**Alerta temprana de intrusión salina para los pozos que abastecen al turismo de la península de Yucatán.**
 
 **Web app:** https://danpc11.github.io/LENTE/
 
@@ -16,7 +19,7 @@
 
 ## Por qué importa
 
-La península de Yucatán no tiene ríos. Toda el agua que se bebe, se riega o llena una alberca sale del mismo acuífero de roca caliza, y bajo la costa del Caribe esa agua dulce es una lente de pocas decenas de metros que flota sobre el mar. Cada pozo que bombea levanta la frontera entre ambas, la haloclina, hacia su rejilla; cuando la alcanza, el agua sale salobre y el hotel paga ósmosis inversa, pipas o un pozo nuevo. Nadie le avisa antes.
+La plataforma kárstica de la península de Yucatán casi no tiene corrientes superficiales permanentes. Toda el agua que se bebe, se riega o llena una alberca sale del mismo acuífero de roca caliza, y bajo la costa del Caribe esa agua dulce es una lente de pocas decenas de metros que flota sobre el mar. Cada pozo que bombea levanta la frontera entre ambas, la haloclina, hacia su rejilla; cuando la alcanza, el agua sale salobre y el hotel paga ósmosis inversa, pipas o un pozo nuevo. Nadie le avisa antes.
 
 El sector servicios de Quintana Roo (hoteles, parques, aeropuerto, plazas) tiene concesionada más agua subterránea que el abasto público urbano de todo el estado, y la bombea desde pozos someros en la franja donde la lente es más delgada. El mismo hotel inyecta su agua residual tratada por debajo de la lente. Frente a esa presión, la vigilancia pública no mide salinidad de forma continua en ningún punto de la costa, y los estudios hidrogeológicos privados responden una vez, para un pozo, a un costo que solo pagan los grandes.
 

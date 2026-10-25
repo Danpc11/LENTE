@@ -70,10 +70,6 @@ Las exportaciones del REPDA 2026 se hacen a mano en la [consulta en línea de CO
 - Natural Earth 1:10 m: batimetría y ríos.
 - Bauer-Gottwein et al. (2011) *Hydrogeology Journal*; Beddows et al. (2007) *Journal of Hydrology*.
 
-## Equipo
-
-Daniel Pérez Calixto (INMEGEN) y Sandra Michelle Torres Pantoja. Postulación al Premio a la Innovación Mexicana 2026, edición Mérida, categoría regional 1 (turismo sostenible y resiliencia climática).
-
 ## Licencia
 
 Uso restringido: se permite consultar el código y los documentos y ejecutar los scripts para verificar resultados; cualquier otro uso (comercial, redistribución, obras derivadas, despliegue) requiere licencia escrita de los titulares. Ver [LICENSE](LICENSE). Los datos de CONAGUA y CONABIO conservan sus términos.
